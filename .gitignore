@@ -10,3 +10,17 @@ Thumbs.db
 config.js
 server.sh
 
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+npm-debug.log
