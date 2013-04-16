@@ -1,0 +1,12 @@
+*~
+.DS_Store
+Thumbs.db
+.project
+/node_modules/
+*.bak
+*_bak
+/public/uploads/
+/tmp/
+config.js
+server.sh
+

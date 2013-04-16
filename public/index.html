@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  	<title>Recorder Example</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/inlineplayer.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css" />
+  </head>
+  <body>
+    <div id="sm2-container">
+      <!-- SM2 flash goes here -->
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span3">
+          <span id="time">0:00</span>
+          <div class="btn-toolbar">
+            <div class="btn-group">
+              <a href="javascript:record()"  id="record" class="btn"><i class="icon-plus-sign"></i></a>
+              <a href="javascript:stop()"    id="stop" class="btn"><i class="icon-stop"></i></a>
+              <a href="javascript:play()"    id="play" class="btn"><i class="icon-play"></i></a>
+              <a href="javascript:upload()"  id="upload" class="btn"><i class="icon-ok"></i></a>
+
+            </div>
+          </div>
+        </div>
+        <div class="span9">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>文件名</th>
+                <th>大小</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a href="/uploads/1366087560410_audio.wav" class="sm2_link">1366087560410_audio.wav</a>
+                </td>
+                <td>580KB</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="/uploads/1366099841182_audio.wav" class="sm2_link">1366099841182_audio.wav</a>                </td>
+                <td>640KB</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="/uploads/511.mp3" class="sm2_link">511.mp3</a>                </td>
+                <td>164KB</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>        
+    </div>
+  
+
+
+    <script type="text/javascript" src="javascripts/lib/recorder.js"></script>
+    <script>
+      function timecode(ms) {
+        var hms = {
+          h: Math.floor(ms/(60*60*1000)),
+          m: Math.floor((ms/60000) % 60),
+          s: Math.floor((ms/1000) % 60)
+        };
+        var tc = []; // Timecode array to be joined with '.'
+
+        if (hms.h > 0) {
+          tc.push(hms.h);
+        }
+
+        tc.push((hms.m < 10 && hms.h > 0 ? "0" + hms.m : hms.m));
+        tc.push((hms.s < 10  ? "0" + hms.s : hms.s));
+
+        return tc.join(':');
+      }
+    
+    
+      Recorder.initialize({
+        swfSrc: "images/recorder.swf"
+      });
+
+      function record(){
+        Recorder.record({
+          start: function(){
+            //alert("recording starts now. press stop when youre done. and then play or upload if you want.");
+          },
+          progress: function(milliseconds){
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+      }
+      
+      function play(){
+        Recorder.stop();
+        Recorder.play({
+          progress: function(milliseconds){
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+      }
+      
+      function stop(){
+        Recorder.stop();
+      }
+      
+      function upload(){
+        Recorder.upload({
+          url:        "http://upload.com/upload",
+          audioParam: "uploadFile",
+          success: function(){
+            alert("your file was uploaded!");
+          }
+        });
+      }
+  </script>
+
+<script type="text/javascript" src="javascripts/lib/soundmanager2.js"></script>
+<script type="text/javascript" src="javascripts/lib/inlineplayer.js"></script>
+  
+  </body>
+</html>
